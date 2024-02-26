@@ -1,0 +1,18 @@
+name: Hello World with Input
+
+on:
+  workflow_dispatch:
+    inputs:
+      user_name:
+        description: "Your name"
+        required: false
+        default: "Test User"
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Demo Step
+        run: |
+          echo "Hello ${{ inputs.user_name }}!"
