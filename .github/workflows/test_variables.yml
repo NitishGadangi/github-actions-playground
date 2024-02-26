@@ -18,7 +18,13 @@ jobs:
       run: |
         echo "Hello ${{ inputs.user_name }}!"
         cat test_file.txt
-        echo "Current Value of TEST_NUMERIC_VAR is ${{ vars.TEST_NUMERIC_VAR }}"
         VAR_VALUE=${{ vars.TEST_NUMERIC_VAR }}
-        VAR_VALUE=$((VAR_VALUE+1))
         echo "Current Value of TEST_NUMERIC_VAR is $VAR_VALUE"
+        UPDATED_VALUE=$((VAR_VALUE+1))
+        echo "Updated Value of TEST_NUMERIC_VAR is $UPDATED_VALUE"
+        gh api \
+            --method PATCH \
+            -H "Accept: application/vnd.github+json" \
+            /repos/OWNER/REPO/actions/variables/NAME \
+            -f name='TEST_NUMERIC_VAR' \
+            -f value=$UPDATED_VALUE
