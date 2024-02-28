@@ -29,6 +29,6 @@ jobs:
         gh api \
             --method PATCH \
             -H "Accept: application/vnd.github+json" \
-            /repos/NitishGadangi/github-actions-playground/actions/variables/TEST_NUMERIC_VAR \
+            /repos/${{ github.repository }}/actions/variables/TEST_NUMERIC_VAR \
             -f name='TEST_NUMERIC_VAR' \
             -f value=$UPDATED_VALUE
