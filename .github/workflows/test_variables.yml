@@ -24,6 +24,8 @@ jobs:
         echo "Current Value of TEST_NUMERIC_VAR is $VAR_VALUE"
         UPDATED_VALUE=$((VAR_VALUE+1))
         echo "Updated Value of TEST_NUMERIC_VAR is $UPDATED_VALUE"
+        echo "${{ github.event.repository.owner }}/${{ github.event.repository.name }}"
+        echo "${{ github.repository }}""
         gh api \
             --method PATCH \
             -H "Accept: application/vnd.github+json" \
