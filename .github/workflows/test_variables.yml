@@ -17,6 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Increment Variable
+      id: increment_vale
       run: |
         echo "Hello ${{ inputs.user_name }}!"
         cat test_file.txt
@@ -35,14 +36,10 @@ jobs:
             -f name=$VAR_NAME \
             -f value=$UPDATED_BUILD_NUMBER
 
-        curl --location 'https://us-central1-credprod-217806.cloudfunctions.net/triggerIPA/github-build-status' \
-          --header 'Authorization: 045ec05c2c684a149dc7ad1e03ebb3216d178ebf0f5e48669b9376cc64d92904' \
-          --header 'Content-Type: application/json' \
-          --data '{
-              "build_progress": "RUNNING",
-              "workflow_url": "${{ env.WORKFLOW_URL }}",
-              "thread_id": "${{ github.event.inputs.thread_id }}",
-              "channel_id": "${{ github.event.inputs.channel_id }}",
-              "build_version": $CURRENT_MARKETING_VERSION,
-              "build_number": $UPDATED_BUILD_NUMBER
-            }'
+        echo "BUILD_NUMBER=$UPDATED_BUILD_NUMBER" >> $GITHUB_OUTPUT
+
+    - name: Step 2
+      run: |
+        OUTPUT_VALUE=${{ steps.increment_vale.UPDATED_BUILD_NUMBER }}
+        echo "result: $OUTPUT_VALUE"
+
