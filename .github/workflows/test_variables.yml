@@ -24,6 +24,7 @@ jobs:
         VAR_NAME="TEST_NUMERIC_VAR"
         echo "Current Value of TEST_NUMERIC_VAR is $VAR_VALUE"
         UPDATED_BUILD_NUMBER=$((VAR_VALUE+1))
+        CURRENT_MARKETING_VERSION="2.1.2"
         echo "Updated Value of TEST_NUMERIC_VAR is $UPDATED_BUILD_NUMBER"
         echo "${{ github.event.repository.owner }}/${{ github.event.repository.name }}"
         echo "${{ github.repository }}"
@@ -33,3 +34,15 @@ jobs:
             /repos/${{ github.repository }}/actions/variables/$VAR_NAME \
             -f name=$VAR_NAME \
             -f value=$UPDATED_BUILD_NUMBER
+
+        curl --location 'https://us-central1-credprod-217806.cloudfunctions.net/triggerIPA/github-build-status' \
+          --header 'Authorization: 045ec05c2c684a149dc7ad1e03ebb3216d178ebf0f5e48669b9376cc64d92904' \
+          --header 'Content-Type: application/json' \
+          --data '{
+              "build_progress": "RUNNING",
+              "workflow_url": "${{ env.WORKFLOW_URL }}",
+              "thread_id": "${{ github.event.inputs.thread_id }}",
+              "channel_id": "${{ github.event.inputs.channel_id }}",
+              "build_version": $CURRENT_MARKETING_VERSION,
+              "build_number": $UPDATED_BUILD_NUMBER
+            }'
