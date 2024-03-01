@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Increment Variable
-      id: increment_vale
+      id: increment_value
       run: |
         echo "Hello ${{ inputs.user_name }}!"
         cat test_file.txt
@@ -40,6 +40,6 @@ jobs:
 
     - name: Step 2
       run: |
-        OUTPUT_VALUE=${{ steps.increment_vale.UPDATED_BUILD_NUMBER }}
+        OUTPUT_VALUE=${{ steps.increment_value.BUILD_NUMBER }}
         echo "result: $OUTPUT_VALUE"
 
