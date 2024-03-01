@@ -31,5 +31,5 @@ jobs:
             --method PATCH \
             -H "Accept: application/vnd.github+json" \
             /repos/${{ github.repository }}/actions/variables/$VAR_NAME \
-            -f name='$VAR_NAME' \
+            -f name=$VAR_NAME \
             -f value=$UPDATED_BUILD_NUMBER
